@@ -4,6 +4,7 @@ using Didenko.VideoAds.Networking.Data;
 using RSG;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Video;
 
 namespace Didenko.VideoAds.Video
@@ -28,7 +29,8 @@ namespace Didenko.VideoAds.Video
             webRequestSender.GetXmlRequest<VAST>(vastXmlUrl)
                 .Then(result =>
                 {
-                    promise = (Promise)PlayUrlVideo(result.Ad.InLine.Creatives.Creative.Linear.MediaFiles.MediaFile, videoPlayer);
+                    var mediaFile = result.Ad.InLine.Creatives.Creative.Linear.MediaFiles.MediaFile;
+                    promise = (Promise)PlayUrlVideo(mediaFile, videoPlayer);
                 })
                 .Catch(promise.Reject);
 
@@ -44,16 +46,10 @@ namespace Didenko.VideoAds.Video
                 promise = (Promise)PlayVideoFile(videoFile, videoPlayer);
             else
             {
-                webRequestSender.GetRequest(videoUrl)
-                    .Then(handler =>
+                DownloadVideo(videoUrl, videoFile)
+                    .Then(() => 
                     {
-                        fileCacher.CacheFile(videoFile, handler.data)
-                        .Then(() =>
-                        {
-                            Debug.Log("File cached");
-                            promise = (Promise)PlayVideoFile(videoFile, videoPlayer);
-                        })
-                        .Catch(promise.Reject);
+                        promise = (Promise)PlayVideoFile(videoFile, videoPlayer);
                     })
                     .Catch(promise.Reject);
             }
@@ -64,6 +60,25 @@ namespace Didenko.VideoAds.Video
         public IPromise PlayVideoFile(VideoFile videoFile, VideoPlayer videoPlayer)
         {
             return videoController.PlayVideo(videoFile, videoPlayer);
+        }
+
+        private IPromise DownloadVideo(string videoUrl, VideoFile videoFile)
+        {
+            var promise = new Promise();
+
+            webRequestSender.GetRequest(videoUrl)
+                .Then(handler =>
+                {
+                    CacheVideo(videoFile, handler);
+                })
+                .Catch(promise.Reject);
+
+            return promise;
+        }
+
+        private IPromise CacheVideo(VideoFile videoFile, DownloadHandler handler)
+        {
+            return fileCacher.CacheFile(videoFile, handler.data);
         }
     }
 }

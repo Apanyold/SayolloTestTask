@@ -17,17 +17,20 @@ namespace Didenko.Purchase.Demo
 
         void Start()
         {
-            purchaseViewManager.Init(ImageRequested, ConfirmRequested, PurchaseStart);
+            purchaseViewManager.Init(ImageRequested, ConfirmRequested, OnItemsRequested);
         }
 
-        private IPromise<ShopItem> PurchaseStart()
+        private void OnItemsRequested()
         {
             Debug.Log("Item request sended");
             var promise = purchaseRequestSender.OnItemRequested("{}");
 
-            promise.Then(responce => Debug.Log("Item recived with id: " + responce.item_id));
-
-            return promise;
+            promise
+                .Then(item => 
+                { 
+                    Debug.Log("Item recived with id: " + item.item_id);
+                    purchaseViewManager.PurchaseStart(item);
+                });
         }
 
         private IPromise<Sprite> ImageRequested(string url)

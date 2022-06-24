@@ -28,30 +28,9 @@ namespace Didenko.VideoAds.Video
             videoPlayer.url = videoFile.FileFullPath;
             videoPlayer.Prepare();
 
-            SubscribePromise(promise);
+            SubscribeToVideoEventHandlers(promise, player);
 
             return promise;
-
-            void SubscribePromise(Promise _promise)
-            {
-                VideoPlayer.ErrorEventHandler errorHandler = null;
-                errorHandler = (source, message) =>
-                {
-                    _promise.LogReject(new Exception(message));
-                    source.errorReceived -= errorHandler;
-                };
-
-                videoPlayer.errorReceived += errorHandler;
-
-                VideoPlayer.EventHandler startHandler = null;
-                startHandler = (source) =>
-                {
-                    source.started -= startHandler;
-                    _promise.Resolve();
-                };
-
-                videoPlayer.started += startHandler;
-            }
         }
 
         private void Init()
@@ -85,6 +64,36 @@ namespace Didenko.VideoAds.Video
             source.Play();
 
             Debug.Log("Video playing");
+        }
+
+        private void SubscribeToVideoEventHandlers(Promise promise, VideoPlayer player)
+        {
+            ErrorHandlerSubscription(promise, player);
+            StartHandlerSubscription(promise, player);
+        }
+
+        private void StartHandlerSubscription(Promise promise, VideoPlayer player)
+        {
+            VideoPlayer.EventHandler startHandler = null;
+            startHandler = (source) =>
+            {
+                promise.Resolve();
+                source.started -= startHandler;
+            };
+
+            player.started += startHandler;
+        }
+
+        private void ErrorHandlerSubscription(Promise promise, VideoPlayer player)
+        {
+            VideoPlayer.ErrorEventHandler errorHandler = null;
+            errorHandler = (source, message) =>
+            {
+                promise.LogReject(new Exception(message));
+                source.errorReceived -= errorHandler;
+            };
+
+            player.errorReceived += errorHandler;
         }
     }
 }

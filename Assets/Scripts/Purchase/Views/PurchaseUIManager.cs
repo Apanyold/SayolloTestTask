@@ -17,9 +17,8 @@ namespace Didenko.Purchase.View
         [SerializeField]
         public PurchaseConfirmView confirmView;
 
-        private Action<string> ItemBuyPressed;
         private Action<PaymentInfo> PurchaseConfirmRequested;
-        private Func<IPromise<ShopItem>> PurchaseStart;
+        private Action ItemsRequested;
 
         private void Start()
         {
@@ -31,10 +30,10 @@ namespace Didenko.Purchase.View
 
         public void Init(Func<string, IPromise<Sprite>> getImageDelegate,
             Action<PaymentInfo> PurchaseConfirmRequested,
-            Func<IPromise<ShopItem>> PurchaseStart)
+            Action ItemsRequested)
         {
             this.PurchaseConfirmRequested = PurchaseConfirmRequested;
-            this.PurchaseStart = PurchaseStart;
+            this.ItemsRequested = ItemsRequested;
 
             shopView.Init(getImageDelegate, OnItemBuyPressed);
             confirmView.Init(OnPurchaseConfirmRequested);
@@ -54,15 +53,18 @@ namespace Didenko.Purchase.View
             confirmView.Hide();
         }
 
+        public void PurchaseStart(ShopItem item)
+        {
+            shopView.Show();
+            shopView.AddItem(item);
+
+            btnStartPurchase.gameObject.SetActive(false);
+        }
+
         private void OnStartButtonClick()
         {
-            PurchaseStart.Invoke().Then(item =>
-            {
-                shopView.Show();
-                shopView.AddItem(item);
-
-                btnStartPurchase.gameObject.SetActive(false);
-            });
+            ItemsRequested?.Invoke();
         }
+
     }
 }
