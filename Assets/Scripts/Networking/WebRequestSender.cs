@@ -14,19 +14,17 @@ namespace Didenko.Networking
         {
             var promise = new Promise<DownloadHandler>();
             var request = UnityWebRequest.Get(url);
-            //{
-                request.SendRequestAsync(response =>
+            request.SendRequestAsync(response =>
+            {
+                if (response.isNetworkError || response.isHttpError)
                 {
-                    if (response.isNetworkError || response.isHttpError)
-                    {
-                        promise.LogReject(new Exception(response.error));
-                        return;
-                    }
+                    promise.LogReject(new Exception(response.error));
+                    return;
+                }
 
-                    Debug.Log("Get request recived with url:" + url);
-                    promise.Resolve(response.downloadHandler);
-                });
-            //};
+                Debug.Log("Get request recived with url:" + url);
+                promise.Resolve(response.downloadHandler);
+            });
 
             return promise;
         }

@@ -507,6 +507,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2746524085001056687, guid: a42cf107a74e95740acfd10716526ff7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2746524085602449752, guid: a42cf107a74e95740acfd10716526ff7,
         type: 3}
       propertyPath: m_Camera
@@ -621,6 +626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchaseUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2746524086096299507, guid: a42cf107a74e95740acfd10716526ff7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a42cf107a74e95740acfd10716526ff7, type: 3}

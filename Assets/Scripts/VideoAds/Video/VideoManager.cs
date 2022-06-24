@@ -49,7 +49,9 @@ namespace Didenko.VideoAds.Video
                 DownloadVideo(videoUrl, videoFile)
                     .Then(() => 
                     {
-                        promise = (Promise)PlayVideoFile(videoFile, videoPlayer);
+                        PlayVideoFile(videoFile, videoPlayer)
+                        .Then(promise.Resolve)
+                        .Catch(promise.Reject);
                     })
                     .Catch(promise.Reject);
             }
@@ -69,7 +71,9 @@ namespace Didenko.VideoAds.Video
             webRequestSender.GetRequest(videoUrl)
                 .Then(handler =>
                 {
-                    CacheVideo(videoFile, handler);
+                    CacheVideo(videoFile, handler)
+                    .Then(promise.Resolve)
+                    .Catch(promise.Reject);
                 })
                 .Catch(promise.Reject);
 
