@@ -6,6 +6,11 @@ This project is SDK for playing video ads and displaying a simple interface for 
 
 [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 
+# Instalation
+You can get the code by cloning the github repository. You can do this in a UI like SourceTree or you can do it from the command line as follows:
+
+```git clone https://github.com/Apanyold/SayolloTestTask.git```
+
 # Video Ads
 
 ### Overview:
