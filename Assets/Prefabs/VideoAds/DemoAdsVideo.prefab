@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoManager: {fileID: 5084550441315422245}
-  XmlVastUrl: https://6u3td6zfza.execute-api.us-east-2.amazonaws.com/prod/ad/vast
+  videoApiUrl: https://6u3td6zfza.execute-api.us-east-2.amazonaws.com/prod/ad/vast
   videoPlayer: {fileID: 5084550440810153453}
 --- !u!1 &5084550441315422244
 GameObject:

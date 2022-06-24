@@ -22,11 +22,11 @@ namespace Didenko.VideoAds.Video
             fileCacher = new FileCacher();
         }
 
-        public IPromise PlayVastVideo(string vastXmlUrl, VideoPlayer videoPlayer)
+        public IPromise PlayVastVideo(string apiUrl, VideoPlayer videoPlayer)
         {
             var promise = new Promise();
 
-            webRequestSender.GetXmlRequest<VAST>(vastXmlUrl)
+            webRequestSender.GetXmlRequest<VAST>(apiUrl)
                 .Then(result =>
                 {
                     var mediaFile = result.Ad.InLine.Creatives.Creative.Linear.MediaFiles.MediaFile;

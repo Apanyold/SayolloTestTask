@@ -22,7 +22,7 @@ namespace Didenko.Purchase.Networking
         public IPromise<ShopItem> OnItemRequested(string json)
         {
             var promise = new Promise<ShopItem>();
-            var requestUrl = $"{purchaseConfig.rootUrl}/{purchaseConfig.workSpace}/{purchaseConfig.shopItems}";
+            var requestUrl = $"{purchaseConfig.apiRoot}/{purchaseConfig.workSpace}/{purchaseConfig.shopItems}";
 
             requestSender.PostRequest<ShopItem>(requestUrl, json)
                 .Then((item) =>
@@ -37,7 +37,7 @@ namespace Didenko.Purchase.Networking
         public IPromise<string> OnPurchaseRequested(string json)
         {
             var promise = new Promise<string>();
-            var requestUrl = $"{purchaseConfig.rootUrl}/{purchaseConfig.workSpace}/{purchaseConfig.purchaseConfirm}";
+            var requestUrl = $"{purchaseConfig.apiRoot}/{purchaseConfig.workSpace}/{purchaseConfig.purchaseConfirm}";
 
             requestSender.PostRequest(requestUrl, json)
                 .Then(response =>

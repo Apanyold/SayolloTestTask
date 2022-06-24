@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9d860bf69f99846887283c7aa2d265, type: 3}
   m_Name: DemoPurchaseConfig
   m_EditorClassIdentifier: 
-  rootUrl: https://6u3td6zfza.execute-api.us-east-2.amazonaws.com
-  workSpace: prod
+  apiRoot: https://6u3td6zfza.execute-api.us-east-2.amazonaws.com
   shopItems: v1/gcom/ad
   purchaseConfirm: v1/gcom/action
+  workSpace: prod

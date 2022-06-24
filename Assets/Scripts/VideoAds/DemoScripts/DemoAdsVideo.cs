@@ -16,7 +16,7 @@ namespace Didenko.VideoAds.Demo
 
         [Header("Api url")]
         [SerializeField]
-        private string XmlVastUrl;
+        private string videoApiUrl;
 
         [Space]
         [SerializeField]
@@ -24,7 +24,7 @@ namespace Didenko.VideoAds.Demo
 
         public void PlayVideoButtonPressed()
         {
-            videoManager.PlayVastVideo(XmlVastUrl, videoPlayer);
+            videoManager.PlayVastVideo(videoApiUrl, videoPlayer);
         }
     }
 }
